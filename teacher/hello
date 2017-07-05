@@ -1,0 +1,37 @@
+
+				if(@$_GET['delete']==1){
+						if (isset($_POST["topicid"]) && isset($_POST["name"])){
+							$id=$_POST["topicid"];
+              $user=$_COOKIE["user"];
+							$name=$_POST["name"];
+
+
+              $sql = "SELECT uploader FROM quiz WHERE quizid='$id';";
+                $result = $conn->query($sql);
+                if ($result->num_rows == 1) {
+                  // sql to delete a record
+
+                  $row = $result->fetch_assoc();
+                  $uploader = $row['uploader'];
+
+                  if($uploader == $user){
+
+									$sql = "DELETE FROM quiz WHERE quizid='$id' AND uploader='$user';";
+									if (  $result = $conn->query($sql)) {
+									$success="Topic removed successfully";
+									}
+									else {
+									$success="Error Removing topic";
+									}
+								}
+              }else $success="Not Authorized to Remove";
+              }
+								else {
+								$success="Topic Not Found";
+								}
+
+				}
+				else{
+				$success='Welcome to Elearning Portal';
+				}
+      }
